@@ -6,6 +6,128 @@
     <title>Todo List</title>
 </head>
 <body>
-    
+    <header>
+        <nav>
+            <h2 class="title">Todo List</h2>
+            <div class="header-buttons">
+            <button type="button" class="add-button" id="open-task-button">+ Add task</button>
+            <button type="button" class="add-button" id="open-project-button">+ Add project</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+    <div class="sidebar">
+        <h2 class="side-title">All Tasks</h2>
+        <ul class="task">
+            <li><box-icon type='solid' name='bell-ring'></box-icon></box-icon><button class="task-button">Today</button></li>
+            <li><box-icon name='calendar-week'></box-icon><button class="task-button">This Week</button></li>
+            <li><box-icon name='calendar'></box-icon><button class="task-button">This Month</button></li>
+        </ul>
+
+        <hr>
+        <h2 class="side-title">Projects</h2>
+        <ul class="task">
+            <li><box-icon name='bookmark-alt'></box-icon><button class="task-button">First Project</button></li>
+        </ul>
+    </div>
+
+
+    <div class="main-content">
+        <h1 class="task-title">Daily Tasks</h1>
+
+        <table class="task-table">
+            <tr>
+                <td>&nbsp;</td>
+                <th>Task Name</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Deadline</th>
+                <th>Action</th>
+            </tr>
+
+            <tr>
+                <td class="checkbox"><input type="checkbox" name="" id=""></td>
+                <td>First task</td>
+                <td>This is the description of the first task</td>
+                <td><p class="low">High</p></td>
+                <td>Deadline</td>
+                <td><button type="button" class="action-button" id="detail-button"><box-icon name='detail' color='rgba(255,255,255,1)'></box-icon><span>Details</span></button>
+                    <button type="button" class="action-button" id="edit-button"><box-icon name='edit' color='rgba(255,255,255,1)'></box-icon><span>Edit</span></button>
+                    <button type="button" class="action-button" id="delete-button"><box-icon name='trash' color='rgba(255,255,255,1)' ></box-icon><span>Delete</span></button>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+
+<dialog id="add-task-modal">
+    <div class="form-container">
+        <form action="">
+            <h2 class="modalTitle">Add task</h2>
+            <div class="form-input">
+                <label for="taskName">Task Name</label>
+                <input type="text" name="taskName" id="taskName">
+            </div>
+            <div class="form-input">
+                <label for="description">Description</label>
+                <textarea name="description" id="description"></textarea>
+            </div>
+            <div class="form-input">
+                <label for="deadline">Deadline</label>
+                <input type="date" name="deadline" id="deadline">
+            </div>
+            <div class="form-input">
+                <label for="priority">Priority</label>
+                <select name="priority" id="priority">
+                    <option>High</option>
+                    <option>Medium</option>
+                    <option>Low</option>
+                </select>
+            </div>
+
+            <div class="form-buttons">
+                <button id="add-task-button" type="button">Add</button>
+                <button id="close-task-button" type="button">Close</button>
+            </div>
+
+        </form>
+    </div>
+</dialog>
+
+<dialog id="add-project-modal">
+    <div class="form-container">
+        <form action="">
+            <h2 class="modalTitle">Add project</h2>
+            <div class="form-input">
+                <label for="projectName">Project Name</label>
+                <input type="text" name="projectName" id="projectName">
+            </div>
+            <div class="form-input">
+                <label for="projectDescription">Description</label>
+                <textarea name="projectDescription" id="projectDescription"></textarea>
+            </div>
+            <div class="form-input">
+                <label for="projectDeadline">Deadline</label>
+                <input type="date" name="projectDeadline" id="projectDeadline">
+            </div>
+            <div class="form-input">
+                <label for="priority">Priority</label>
+                <select name="priority" id="priority">
+                    <option>High</option>
+                    <option>Medium</option>
+                    <option>Low</option>
+                </select>
+            </div>
+
+            <div class="form-buttons">
+                <button id="add-project-button" type="button">Add</button>
+                <button id="close-project-button" type="button">Close</button>
+            </div>
+
+        </form>
+    </div>
+</dialog>
 </body>
 </html>
