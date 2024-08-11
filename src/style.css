@@ -167,6 +167,12 @@ input[type="checkbox"]{
     transform: scale(1.8);
 }
 
+.taskButtonContainer{
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+}
+
 .action-button{
     color: #fff;
     border: none;
@@ -280,7 +286,7 @@ label {
     color: #fff;
 }
 
-#add-task-button, #add-project-button{
+#add-task-button, #add-project-button, #edit-task-button{
     background-color: #27ae60;
 }
 

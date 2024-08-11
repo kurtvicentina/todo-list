@@ -11,6 +11,7 @@ import { allProjects } from './app/storeProject'
 import { generateProject } from './app/domController'
 import { getAllTask } from './app/storeTask'
 import { appendTask } from './app/domController'
+import { taskDone } from './app/storeTask'
 
 generateProject()
 console.log(allProjects)
