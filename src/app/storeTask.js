@@ -3,6 +3,8 @@ import { closeModal } from "./domController"
 import { appendTask } from "./domController"
 import { showTaskDetails } from "./domController"
 import { editTask } from "./domController"
+import { removeTaskFromDom } from "./domController"
+import { editTaskFromDom } from "./domController"
 const taskForm = document.querySelector('#taskForm')
 const taskModal = document.querySelector('#add-task-modal')
 export const addTaskBtn = document.querySelector('#add-task-button')
@@ -66,6 +68,9 @@ export function showTaskEdit(index){
 export function saveEdit(index, newTask){
     allTask[index] = newTask;
     localStorage.setItem('allTask', JSON.stringify(allTask));
+    editTaskFromDom(index, newTask.taskName, newTask.taskDescription, newTask.taskPriority, newTask.taskDeadline)
+    // removeTaskFromDom(index)
+    // appendTask(newTask.taskName, newTask.taskDescription, newTask.taskPriority, newTask.taskDeadline)
 }
 
 export function getTaskDetails(index){

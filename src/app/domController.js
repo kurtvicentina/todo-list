@@ -72,16 +72,20 @@ export function appendTask(name, description, priority, deadline, taskIndex){
     doneCheckBox.addEventListener('click', () => taskDone(taskIndex))
     
     const taskNameDom = document.createElement('p')
+    taskNameDom.setAttribute('class', 'task-name')
     taskNameDom.textContent = name
 
     const taskDescriptionDom = document.createElement('p')
+    taskDescriptionDom.setAttribute('class', 'task-description')
     taskDescriptionDom.textContent = description
 
     const taskPriorityDom = document.createElement('p')
     taskPriorityDom.textContent = priority
     taskPriorityDom.setAttribute('class', 'low')
+    taskPriorityDom.classList.add('task-priority')
 
     const taskDeadlineDom = document.createElement('p')
+    taskDeadlineDom.setAttribute('class', 'task-deadline')
     taskDeadlineDom.textContent = deadline
 
     const taskDetailBtn = document.createElement('button')
@@ -138,6 +142,21 @@ export function appendTask(name, description, priority, deadline, taskIndex){
     taskTable.append(taskTableRow)
 }
 
+export function editTaskFromDom(index, name, desc, prio, deadline) {
+    let row = document.querySelector(`[data-row='${index}']`)
+    
+    let domTaskName = row.querySelector('.task-name')
+    let domTaskDescription = row.querySelector('.task-description')
+    let domTaskPriority = row.querySelector('.task-priority')
+    let domTaskDeadline = row.querySelector('.task-deadline')
+    
+    domTaskName.textContent = name
+    domTaskDescription.textContent = desc
+    domTaskPriority.textContent = prio
+    domTaskDeadline.textContent = deadline
+}
+
+
 export function appendProject(projectName){
     const projectContainer = document.createElement('li')
     const projectButton = document.createElement('button')
@@ -151,7 +170,11 @@ export function appendProject(projectName){
 
 export function showTaskDetails(tName, tProjName, tDesc, tDeadline, tPrio){
     const modal = document.createElement('dialog')
-    modal.setAttribute('id', 'add-task-modal')
+    modal.setAttribute('id', 'detail-task-modal')
+
+    const formContainer = document.createElement('div')
+    formContainer.setAttribute('class', 'form-container')
+
     const form = document.createElement('form')
     const taskTitle = document.createElement('h2')
     taskTitle.textContent = 'Task Details'
@@ -216,7 +239,8 @@ export function showTaskDetails(tName, tProjName, tDesc, tDeadline, tPrio){
     taskPriorityContainer.append(taskPriorityInput)
     form.append(taskPriorityContainer)
 
-    modal.append(form)
+    modal.append(formContainer)
+    formContainer.append(form)
     document.body.append(modal)
     modal.showModal()
 }
@@ -225,8 +249,12 @@ export function editTask(tName, tProjName, tDesc, tDeadline, tPrio, taskIndex) {
     const modal = document.createElement('dialog');
     modal.setAttribute('id', 'edit-task-modal');
     
+    const formContainer = document.createElement('div')
+    formContainer.setAttribute('class', 'form-container')
+
+
     const form = document.createElement('form');
-    
+
     const taskTitle = document.createElement('h2');
     taskTitle.textContent = 'Edit Task';
     form.append(taskTitle);
@@ -264,7 +292,6 @@ export function editTask(tName, tProjName, tDesc, tDeadline, tPrio, taskIndex) {
     taskDescriptionTextArea.value = tDesc;
     taskDescriptionContainer.append(taskDescriptionLabel);
     taskDescriptionContainer.append(taskDescriptionTextArea);
-    taskDeadlineContainer.getel
     form.append(taskDescriptionContainer);
 
     const taskDeadlineContainer = document.createElement('div');
@@ -311,13 +338,14 @@ export function editTask(tName, tProjName, tDesc, tDeadline, tPrio, taskIndex) {
 
     editBtnContainer.append(editBtn);
     form.append(editBtnContainer);
+    modal.append(formContainer)
+    formContainer.append(form)
 
-    modal.append(form);
     document.body.append(modal);
     modal.showModal();
 }
 
-function removeTaskFromDom(index) {
+export function removeTaskFromDom(index) {
     let row = document.querySelector(`[data-row = '${index}']`)
         row.remove()
 }
