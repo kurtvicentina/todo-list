@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Todo List</title>
 </head>
 <body>
@@ -20,21 +21,22 @@
     <div class="sidebar">
         <h2 class="side-title">All Tasks</h2>
         <ul class="task">
-            <li><box-icon type='solid' name='bell-ring'></box-icon></box-icon><button class="task-button">Today</button></li>
-            <li><box-icon name='calendar-week'></box-icon><button class="task-button">This Week</button></li>
-            <li><box-icon name='calendar'></box-icon><button class="task-button">This Month</button></li>
+            <li><i class='bx bx-collection' style='color:#ffffff' ></i><button class="task-button" id="allTasksBtn">All tasks</button></li>
+            <li><i class='bx bx-target-lock' style='color:#ffffff' ></i><button class="task-button" id="todayBtn">Today</button></li>
+            <li><i class='bx bx-calendar-week' style='color:#ffffff' ></i><button class="task-button" id="weekBtn">This Week</button></li>
+            <li><i class='bx bx-calendar' style='color:#ffffff' ></i></box-icon><button class="task-button" id="monthBtn">This Month</button></li>
         </ul>
 
         <hr>
         <h2 class="side-title">Projects</h2>
         <ul class="task" id="projectSidebar">
-            <li><box-icon name='bookmark-alt'></box-icon><button class="project-button">First Project</button></li>
+            <li><i class='bx bxs-cog' style='color:#ffffff' ></i><button class="project-button">First Project</button></li>
         </ul>
     </div>
 
 
     <div class="main-content">
-        <h1 class="task-title">Daily Tasks</h1> 
+        <h1 class="task-title"></h1> 
 
         <table class="task-table">
             <tr>
@@ -46,18 +48,6 @@
                 <th>Action</th>
             </tr>
 
-            <tr>
-                <td class="checkbox"><input type="checkbox" name="doneCheckBox"></td>
-                <td><p>First task</p></td>
-                <td><p>This is the description of the first task</p></td>
-                <td><p class="low">High</p></td>
-                <td><p>Deadline</p></td>
-                <td id="taskButtonContainer"><button type="button" class="action-button" id="detail-button"><box-icon name='detail' color='rgba(255,255,255,1)'></box-icon><span>Details</span></button>
-                    <button type="button" class="action-button" id="edit-button"><box-icon name='edit' color='rgba(255,255,255,1)'></box-icon><span>Edit</span></button>
-                    <button type="button" class="action-button" id="delete-button"><box-icon name='trash' color='rgba(255,255,255,1)' ></box-icon><span>Delete</span></button>
-                </td>
-            </tr>
-
         </table>
     </div>
 </div>
@@ -66,26 +56,27 @@
     <div class="form-container">
         <form id="taskForm">
             <h2 class="modalTitle">Add task</h2>
+            <hr>
             <div class="form-input">
                 <label for="taskName">Task Name</label>
-                <input type="text" name="taskName" id="taskName">
+                <input type="text" name="taskName" id="taskName" required>
             </div>
             <div class="form-input" id="projectSelectorContainer">
                 <label for="project">Project Name</label>
-                <select name="taskProject" id="project">
+                <select name="taskProject" id="project" required>
                 </select>
             </div>
             <div class="form-input">
                 <label for="description">Description</label>
-                <textarea name="taskDescription" id="description"></textarea>
+                <textarea name="taskDescription" id="description" required></textarea>
             </div>
             <div class="form-input">
                 <label for="deadline">Deadline</label>
-                <input type="date" name="taskDeadline" id="deadline">
+                <input type="date" name="taskDeadline" id="deadline" required>
             </div>
             <div class="form-input">
                 <label for="priority">Priority</label>
-                <select name="taskPriority" id="priority">
+                <select name="taskPriority" id="priority" required>
                     <option>High</option>
                     <option>Medium</option>
                     <option>Low</option>
@@ -93,7 +84,7 @@
             </div>
 
             <div class="form-buttons">
-                <button id="add-task-button" type="button">Add</button>
+                <button id="add-task-button" type="submit">Add</button>
                 <button id="close-task-button" type="button">Close</button>
             </div>
 
@@ -105,12 +96,13 @@
     <div class="form-container">
         <form id="projectForm">
             <h2 class="modalTitle">Add project</h2>
+            <hr>
             <div class="form-input">
                 <label for="projectName">Project Name</label>
-                <input type="text" name="projectName" id="projectName">
+                <input type="text" name="projectName" id="projectName" required>
             </div>
             <div class="form-buttons">
-                <button id="add-project-button" type="button">Add</button>
+                <button id="add-project-button">Add</button>
                 <button id="close-project-button" type="button">Close</button>
             </div>
 

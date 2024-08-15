@@ -2,16 +2,21 @@ import { clearForm } from "./domController"
 import { closeModal } from "./domController"
 import { generateProject } from "./domController"
 import { appendProject } from "./domController"
+import { appendTask } from "./domController"
+import { format, formatDistance } from "date-fns"
 const projectForm = document.querySelector('#projectForm')
 const projectModal = document.querySelector('#add-project-modal')
 export const addProjectBtn = document.querySelector('#add-project-button')
 export let allProjects = []
 
-allProjects.push('Daily')
+allProjects.push('Today')
 allProjects.push('Weekly')
 allProjects.push('Monthly')
 
-addProjectBtn.addEventListener('click', createProject)
+projectForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    createProject()
+})
 
 function createProject (){
     const projectName = projectForm.projectName.value
@@ -23,9 +28,23 @@ function createProject (){
     closeModal(projectModal)
 }
 
+export function findTasksOfProject(project){
+    const taskCollection = JSON.parse(localStorage.getItem('allTask'))
 
-//Task to be completed
+    let tasks = taskCollection.filter(item => item.taskProject == project)
+    tasks.forEach((task) => {
+        const wordedDate = format(task.taskDeadline, 'MMMM d, yyyy')
+        const dateDistance = formatDistance(new Date(), task.taskDeadline)
+        appendTask(task.taskName, task.taskDescription, task.taskPriority, `${wordedDate} | ${dateDistance}`, task.taskIndex)
+    })
+}
 
-// overall design
-// done checkbox button should work
-// action buttons should work
+export function showAllTasks(){
+    const taskCollection = JSON.parse(localStorage.getItem('allTask'))
+
+    taskCollection.forEach((task) => {
+        const wordedDate = format(task.taskDeadline, 'MMMM d, yyyy')
+        const dateDistance = formatDistance(new Date(), task.taskDeadline)
+        appendTask(task.taskName, task.taskDescription, task.taskPriority, `${wordedDate} | ${dateDistance}`, task.taskIndex)
+    })
+}

@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Moderustic';
+    src: url('./Moderustic-Regular.ttf') format('truetype');
+ }
+
 *,
 *::before,
 *::after {
@@ -11,6 +16,7 @@
 body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    font-family: 'Moderustic';
 }
 
 img,
@@ -53,13 +59,15 @@ body, html {
 .container {
     display: flex;
     height: 100vh;
+    background-color: #e2e8f0;
 }
 
 nav {
     display: flex;
-    padding: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
     justify-content: space-between;
-    background-color: #e9e9e9;
+    background-color: #52525b;
+    color: #f1f5f9;
 }
 
 .add-button{
@@ -83,12 +91,14 @@ nav {
 .sidebar {
     width: 15vw;
     padding: 0.5rem;
-    background-color: #e9e9e9;
+    background-color: #52525b;
     height: 100vh;
+    color: #f1f5f9;
 }
 
 .side-title{
     margin-bottom: .3rem;
+    padding-left: 1rem;
 }
 
 .task{
@@ -111,10 +121,16 @@ nav {
     background-color: transparent;
     transition: .1s ease-in;
     text-align: left;
+    color: #f8fafc;
+}
+
+i{
+    place-self: center;
+    font-size: 1.3rem;
 }
 
 .task-button:hover{
-    border-left: 4px solid #a93226;
+    border-left: 4px solid #facc15;
     cursor: pointer;
 }
 
@@ -125,11 +141,13 @@ nav {
     background-color: transparent;
     transition: .1s ease-in;
     text-align: left;
+    color: #f8fafc;
 }
 
 .project-button:hover{
     border-left: 4px solid #229954;
     cursor: pointer;
+    animation: 'tada';
 }
 
 .main-content{
@@ -145,6 +163,7 @@ nav {
     min-width: 100%;
     /* border: 1px solid black; */
     text-align: center;
+    border-collapse: collapse;
 }
 
 th{
@@ -165,6 +184,7 @@ input[type="checkbox"]{
     position: relative;
     cursor: pointer;
     transform: scale(1.8);
+    outline: none;
 }
 
 .taskButtonContainer{
@@ -212,29 +232,23 @@ input[type="checkbox"]{
 
 .high{
     background-color: #a93226;
-    width: 3rem;
     color: #f7f4f4;
     border-radius: 3px;
     align-self: center;
-    margin-left: 1rem;
 }
 
 .medium{
     background-color: #b7950b;
-    width: 3rem;
     color: #f7f4f4;
     border-radius: 3px;
     align-self: center;
-    margin-left: 1rem;
 }
 
 .low{
     background-color: #27ae60;
-    width: 3rem;
     color: #f7f4f4;
     border-radius: 3px;
     align-self: center;
-    margin-left: 1rem;
 }
 
 dialog{
@@ -244,6 +258,7 @@ dialog{
 }
 
 .form-container {
+    width: 40vh;
     display: flex;
     padding: 1rem;
     border: none;
@@ -252,6 +267,7 @@ dialog{
     background-color: white;
     border-radius: 8px;
     gap: 1rem;
+    font-size: 1.2rem;
 }
 
 form{
@@ -268,6 +284,7 @@ form{
 
 label {
     margin-bottom: 0.5rem;
+    font-weight: 550;
 }
 
 .form-buttons{
@@ -277,8 +294,8 @@ label {
 }
 
 .form-buttons button{
-    width: 5rem;
-    height: 2rem;
+    width: 6rem;
+    height: 2.5rem;
     cursor: pointer;
     border: none;
     outline: none;
@@ -310,7 +327,7 @@ input, textarea, select{
     transition: .2s ease-in-out;
 }
 
-input:focus, textarea:focus, select:focus{
+input[type='text']:focus, input[type='date']:focus, textarea:focus, select:focus{
     border: 1px solid #3498db;
     box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
 }
@@ -326,4 +343,13 @@ select, input[type="date"]{
 
 .modalTitle{
     margin-bottom: .3rem;
+}
+
+.done{
+    background-color: #94a3b8;
+}
+
+hr{
+    border: .1rem solid black;
+    border-radius: 3px;
 }

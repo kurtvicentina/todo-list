@@ -12,6 +12,7 @@ module.exports = merge(common, {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
+            link: 'https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
         })
     ],
     module: {

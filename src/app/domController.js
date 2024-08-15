@@ -1,6 +1,12 @@
 import { allProjects } from "./storeProject"
-import { saveEdit, showTaskEdit, taskDone } from "./storeTask"
+import { dummyTasks, saveEdit, showTaskEdit, taskDone } from "./storeTask"
 import { getTaskDetails } from "./storeTask"
+import { findTasksOfProject } from "./storeProject"
+import { showAllTasks } from "./storeProject"
+import { createHoverEffect } from "./styling"
+import { format, formatDate, formatDistance } from "date-fns"
+
+const mainContainer = document.querySelector('.main-content')
 
 export const openTaskButton = document.querySelector('#open-task-button')
 export const closeTaskButton = document.querySelector('#close-task-button')
@@ -15,6 +21,16 @@ const selectorDiv = document.querySelector('#projectSelectorContainer')
 
 const taskTable = document.querySelector('.task-table')
 const projectSidebar = document.querySelector('#projectSidebar')
+
+export const allTaskBtn = document.querySelector('#allTasksBtn')
+export const todayProjBtn = document.querySelector('#todayBtn')
+export const weekProjBtn = document.querySelector('#weekBtn')
+export const monthProjBtn = document.querySelector('#monthBtn')
+
+let allPriorities = []
+allPriorities.push('High')
+allPriorities.push('Medium')
+allPriorities.push('Low')
 
 openTaskButton.addEventListener('click', () => {
     taskModal.showModal()
@@ -65,11 +81,22 @@ function domRemover(node){
     node.remove()
 }
 
+function hasDoneClass(item){
+    if(!item.classList.contains('done')){
+        return item.classList.add('done')
+    }
+    return item.classList.remove('done')
+}
+
 export function appendTask(name, description, priority, deadline, taskIndex){
     const doneCheckBox = document.createElement('input')
     doneCheckBox.type = 'checkbox'
     doneCheckBox.setAttribute('data-index', taskIndex)
-    doneCheckBox.addEventListener('click', () => taskDone(taskIndex))
+    doneCheckBox.addEventListener('click', () => {
+        taskDone(taskIndex)
+        let row = document.querySelector(`[data-row = '${taskIndex}']`)
+        hasDoneClass(row)
+    })
     
     const taskNameDom = document.createElement('p')
     taskNameDom.setAttribute('class', 'task-name')
@@ -81,31 +108,46 @@ export function appendTask(name, description, priority, deadline, taskIndex){
 
     const taskPriorityDom = document.createElement('p')
     taskPriorityDom.textContent = priority
-    taskPriorityDom.setAttribute('class', 'low')
+    taskPriorityDom.setAttribute('class', `${priority.toLowerCase()}`)
     taskPriorityDom.classList.add('task-priority')
 
     const taskDeadlineDom = document.createElement('p')
     taskDeadlineDom.setAttribute('class', 'task-deadline')
     taskDeadlineDom.textContent = deadline
 
+    const detailIcon = document.createElement('i')
+    detailIcon.setAttribute('class', 'bx bx-merge')
+    const detailText = document.createElement('span')
+    detailText.textContent = 'Details'
     const taskDetailBtn = document.createElement('button')
     taskDetailBtn.type = 'button'
-    taskDetailBtn.textContent = 'Details'
+    taskDetailBtn.append(detailIcon)
+    taskDetailBtn.append(detailText)
     taskDetailBtn.setAttribute('class', 'action-button')
     taskDetailBtn.setAttribute('id', 'detail-button')
     taskDetailBtn.addEventListener('click', () => getTaskDetails(taskIndex))
 
+    const editIcon = document.createElement('i')
+    editIcon.setAttribute('class', 'bx bxs-edit-alt')
+    const editText = document.createElement('span')
+    editText.textContent = 'Edit'
     const taskEditBtn = document.createElement('button')
     taskEditBtn.type = 'button'
-    taskEditBtn.textContent = 'Edit'
+    taskEditBtn.append(editIcon)
+    taskEditBtn.append(editText)
     taskEditBtn.setAttribute('class', 'action-button')
     taskEditBtn.setAttribute('id', 'edit-button')
     taskEditBtn.setAttribute('edit-index', taskIndex)
     taskEditBtn.addEventListener('click', () => showTaskEdit(taskIndex))
 
+    const deleteIcon = document.createElement('i')
+    deleteIcon.setAttribute('class', 'bx bxs-trash-alt')
+    const deleteText = document.createElement('span')
+    deleteText.textContent = 'Delete'
     const taskDeleteBtn = document.createElement('button')
     taskDeleteBtn.type = 'button'
-    taskDeleteBtn.textContent = 'Delete'
+    taskDeleteBtn.append(deleteIcon)
+    taskDeleteBtn.append(deleteText)
     taskDeleteBtn.setAttribute('class', 'action-button')
     taskDeleteBtn.setAttribute('id', 'delete-button')
     taskDeleteBtn.addEventListener('click', () => removeTaskFromDom(taskIndex))
@@ -153,19 +195,27 @@ export function editTaskFromDom(index, name, desc, prio, deadline) {
     domTaskName.textContent = name
     domTaskDescription.textContent = desc
     domTaskPriority.textContent = prio
-    domTaskDeadline.textContent = deadline
+    domTaskDeadline.textContent = `${format(new Date(deadline), 'MMMM d, yyyy')} | ${formatDistance(new Date(), deadline)}`
 }
 
 
 export function appendProject(projectName){
     const projectContainer = document.createElement('li')
     const projectButton = document.createElement('button')
+    const projectIcon = document.createElement('i')
+    projectIcon.setAttribute('class', 'bx bxs-cog')
 
     projectButton.setAttribute('class', 'project-button')
     projectButton.textContent = projectName
-
+    projectButton.addEventListener('click', () => {
+        renderProject(projectName)
+        clearTable()
+        findTasksOfProject(projectName)
+    })
+    projectContainer.append(projectIcon)
     projectContainer.append(projectButton)
     projectSidebar.append(projectContainer)
+    createHoverEffect()
 }
 
 export function showTaskDetails(tName, tProjName, tDesc, tDeadline, tPrio){
@@ -275,8 +325,12 @@ export function editTask(tName, tProjName, tDesc, tDeadline, tPrio, taskIndex) {
     taskProjectNameContainer.setAttribute('class', 'form-input');
     const projectNameLabel = document.createElement('label');
     projectNameLabel.textContent = 'Project Name';
-    const projectNameInput = document.createElement('input');
-    projectNameInput.type = 'text';
+    const projectNameInput = document.createElement('select');
+    for (const item of allProjects){
+        const projOption = document.createElement('option')
+        projOption.textContent = item
+        projectNameInput.append(projOption)
+    }
     projectNameInput.name = 'taskProject';
     projectNameInput.value = tProjName;
     taskProjectNameContainer.append(projectNameLabel);
@@ -310,8 +364,12 @@ export function editTask(tName, tProjName, tDesc, tDeadline, tPrio, taskIndex) {
     taskPriorityContainer.setAttribute('class', 'form-input');
     const taskPriorityLabel = document.createElement('label');
     taskPriorityLabel.textContent = 'Priority';
-    const taskPriorityInput = document.createElement('input');
-    taskPriorityInput.type = 'text';  // Changed from 'select' to 'text' for simplicity
+    const taskPriorityInput = document.createElement('select');
+    for (const item of allPriorities){
+        const itemPriority = document.createElement('option')
+        itemPriority.textContent = item
+        taskPriorityInput.append(itemPriority)
+    }
     taskPriorityInput.name = 'taskPriority';
     taskPriorityInput.value = tPrio;
     taskPriorityContainer.append(taskPriorityLabel);
@@ -350,5 +408,51 @@ export function removeTaskFromDom(index) {
         row.remove()
 }
 
-// update the dom for every edit
-// make sure that the form accepts 'enter' in keyboard
+export function renderProject(projectName){
+    const projectTitle = mainContainer.querySelector('.task-title')
+    projectTitle.textContent = projectName
+    projectTitle.setAttribute('id', projectName)
+}
+
+export function clearTable() {
+    const taskTable = document.querySelector('.task-table');
+    
+    // Select all rows except the first one
+    while (taskTable.rows.length > 1) {
+        taskTable.deleteRow(1);  // Always delete the second row, as rows[0] is the header
+    }
+}
+
+
+allTaskBtn.addEventListener('click', () => {
+    renderProject('All')
+    clearTable()
+    showAllTasks()
+})
+
+todayProjBtn.addEventListener('click', () => {
+    renderProject('Today')
+    clearTable()
+    findTasksOfProject('Today')
+})
+weekProjBtn.addEventListener('click', () => {
+    renderProject('Weekly')
+    clearTable()
+    findTasksOfProject('Weekly')
+})
+monthProjBtn.addEventListener('click', () => {
+    renderProject('Monthly')
+    clearTable()
+    findTasksOfProject('Monthly')
+})
+
+export function isInProjectTable(project){
+    const projectTitle = mainContainer.querySelector('.task-title')
+    const projectTitleId = projectTitle.getAttribute('id')
+    console.log(projectTitleId)
+    console.log(project)
+
+    if(project != projectTitleId)return false
+    return true
+}
+
